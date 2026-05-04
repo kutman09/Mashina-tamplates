@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="auth-page">
+  <div class="auth-overlay"></div>
+  <div class="auth-container">
+    <div class="auth-card text-center">
+      <img src="{% static 'images/logo.png' %}" height="70" class="mb-3" alt="Alay Avto 777">
+      <h3 class="text-white mb-3">Выйти из аккаунта?</h3>
+      <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger fw-bold px-5 me-2">Выйти</button>
+        <a href="/" class="btn btn-outline-light px-4">Отмена</a>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

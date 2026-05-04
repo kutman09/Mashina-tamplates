@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="add-car-page">
+  <div class="container py-5">
+    <h1 class="page-title mb-4">Добавить объявление</h1>
+    <form method="post" action="{% url 'cars:add' %}" enctype="multipart/form-data" class="add-car-form" novalidate>
+      {% csrf_token %}
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} mb-3">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <div class="form-section">
+        <h4 class="form-section-title">Основная информация</h4>
+        <div class="mb-3">
+          <label class="form-label">Марка *</label>
+          <select name="make" id="id_make" class="form-select dark-select" required>
+            <option value="">— выберите марку —</option>
+            {% for val, label in form.make.field.choices %}
+              {% if val %}<option value="{{ val }}" {% if form.make.value == val %}selected{% endif %}>{{ label }}</option>{% endif %}
+            {% endfor %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Модель *</label>
+          <select name="model_name" id="id_model_name" class="form-select dark-select" required>
+            <option value="">— сначала выберите марку —</option>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Поколение</label>
+          <input type="text" name="generation" class="form-control dark-input" placeholder="например: VII рестайлинг" value="{{ form.generation.value|default:'' }}">
+        </div>
+        <div class="row">
+          <div class="col-6 mb-3">
+            <label class="form-label">Год выпуска *</label>
+            <input type="number" name="year" class="form-control dark-input" min="1990" max="2025" placeholder="2021" required value="{{ form.year.value|default:'' }}">
+          </div>
+          <div class="col-6 mb-3">
+            <label class="form-label">Пробег (км) *</label>
+            <input type="number" name="mileage" class="form-control dark-input" placeholder="50000" required value="{{ form.mileage.value|default:'' }}">
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Тип кузова *</label>
+          <select name="body_type" class="form-select dark-select" required>
+            <option value="">— выберите —</option>
+            {% for val, label in form.body_type.field.choices %}{% if val %}<option value="{{ val }}">{{ label }}</option>{% endif %}{% endfor %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Коробка передач *</label>
+          <select name="transmission" class="form-select dark-select" required>
+            {% for val, label in form.transmission.field.choices %}{% if val %}<option value="{{ val }}">{{ label }}</option>{% endif %}{% endfor %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Тип топлива *</label>
+          <select name="fuel" class="form-select dark-select" required>
+            {% for val, label in form.fuel.field.choices %}{% if val %}<option value="{{ val }}">{{ label }}</option>{% endif %}{% endfor %}
+          </select>
+        </div>
+        <div class="row">
+          <div class="col-6 mb-3">
+            <label class="form-label">Объём двигателя (л.) *</label>
+            <input type="number" name="engine_volume" class="form-control dark-input" step="0.1" min="0.5" max="10" placeholder="2.5" required value="{{ form.engine_volume.value|default:'' }}">
+          </div>
+          <div class="col-6 mb-3">
+            <label class="form-label">Мощность (л.с.)</label>
+            <input type="number" name="power" class="form-control dark-input" placeholder="180" value="{{ form.power.value|default:'' }}">
+          </div>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Привод *</label>
+          <select name="drive" class="form-select dark-select" required>
+            {% for val, label in form.drive.field.choices %}{% if val %}<option value="{{ val }}">{{ label }}</option>{% endif %}{% endfor %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Руль *</label>
+          <select name="steering" class="form-select dark-select" required>
+            {% for val, label in form.steering.field.choices %}{% if val %}<option value="{{ val }}">{{ label }}</option>{% endif %}{% endfor %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Цвет</label>
+          <select name="color" class="form-select dark-select">
+            <option value="">— выберите цвет —</option>
+            {% for val, label in form.color.field.choices %}{% if val %}<option value="{{ val }}">{{ label }}</option>{% endif %}{% endfor %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Количество владельцев по ПТС</label>
+          <input type="number" name="owners_count" class="form-control dark-input" min="1" max="10" placeholder="1" value="{{ form.owners_count.value|default:'1' }}">
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Состояние</label>
+          <select name="condition" class="form-select dark-select">
+            {% for val, label in form.condition.field.choices %}{% if val %}<option value="{{ val }}">{{ label }}</option>{% endif %}{% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h4 class="form-section-title">Цена</h4>
+        <div class="row">
+          <div class="col-8 mb-3">
+            <label class="form-label">Цена *</label>
+            <input type="number" name="price" class="form-control dark-input" placeholder="25000" required value="{{ form.price.value|default:'' }}">
+          </div>
+          <div class="col-4 mb-3">
+            <label class="form-label">Валюта</label>
+            <select name="currency" class="form-select dark-select">
+              <option value="usd">USD ($)</option>
+              <option value="kgs">Сом</option>
+            </select>
+          </div>
+        </div>
+        <div class="mb-3 d-flex gap-4">
+          <div class="form-check">
+            <input type="checkbox" name="is_negotiable" class="form-check-input" id="id_is_negotiable" {% if form.is_negotiable.value %}checked{% endif %}>
+            <label class="form-check-label" for="id_is_negotiable">Торг уместен</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" name="has_installment" class="form-check-input" id="id_has_installment" {% if form.has_installment.value %}checked{% endif %}>
+            <label class="form-check-label" for="id_has_installment">Рассрочка</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h4 class="form-section-title">Местоположение</h4>
+        <div class="mb-3">
+          <label class="form-label">Регион *</label>
+          <select name="region" class="form-select dark-select" required>
+            <option value="">— выберите регион —</option>
+            {% for val, label in form.region.field.choices %}{% if val %}<option value="{{ val }}">{{ label }}</option>{% endif %}{% endfor %}
+          </select>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Город</label>
+          <input type="text" name="city" class="form-control dark-input" placeholder="Бишкек" value="{{ form.city.value|default:'' }}">
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h4 class="form-section-title">Описание</h4>
+        <div class="mb-3">
+          <label class="form-label">Описание объявления</label>
+          <textarea name="description" class="form-control dark-input" rows="5" placeholder="Расскажите подробнее об автомобиле...">{{ form.description.value|default:'' }}</textarea>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h4 class="form-section-title">Дополнительно</h4>
+        <div class="d-flex flex-wrap gap-4">
+          <div class="form-check">
+            <input type="checkbox" name="is_customs_cleared" class="form-check-input" id="id_customs" {% if form.is_customs_cleared.value %}checked{% endif %}>
+            <label class="form-check-label" for="id_customs">Растаможен</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" name="has_gas_equipment" class="form-check-input" id="id_gas" {% if form.has_gas_equipment.value %}checked{% endif %}>
+            <label class="form-check-label" for="id_gas">Газовое оборудование</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" name="is_urgent" class="form-check-input" id="id_urgent" {% if form.is_urgent.value %}checked{% endif %}>
+            <label class="form-check-label" for="id_urgent">Срочно</label>
+          </div>
+          <div class="form-check">
+            <input type="checkbox" name="is_exchange_possible" class="form-check-input" id="id_exchange" {% if form.is_exchange_possible.value %}checked{% endif %}>
+            <label class="form-check-label" for="id_exchange">Возможен обмен</label>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <h4 class="form-section-title">Фотографии</h4>
+        <div class="photo-upload-area" id="photo-drop-zone">
+          <input type="file" name="photos" id="photo-upload" accept="image/*" multiple class="d-none">
+          <label for="photo-upload" class="photo-upload-label">
+            <span class="upload-icon">📷</span>
+            <span>Нажмите чтобы добавить фото</span>
+            <span class="text-muted small">Первое фото — главное. До 10 штук.</span>
+          </label>
+        </div>
+        <div id="photo-preview" class="photo-preview-grid mt-3"></div>
+      </div>
+
+      <button type="submit" class="btn btn-danger btn-lg w-100 fw-bold mt-4">Опубликовать объявление</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

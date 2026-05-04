@@ -1,0 +1,39 @@
+{% load humanize %}
+<div class="car-card position-relative">
+  <a href="{{ listing.get_absolute_url }}" class="card-full-link"></a>
+
+  <div class="car-card__photo position-relative">
+    <img src="{% if listing.get_main_photo %}{{ listing.get_main_photo.image.url }}{% else %}/static/images/placeholders/car_placeholder.jpg{% endif %}"
+         class="car-card__img"
+         alt="{{ listing.title }}"
+         loading="lazy">
+
+    {% if listing.is_featured %}
+      <span class="badge-vip">VIP</span>
+    {% endif %}
+
+    {% if listing.has_installment %}
+      <span class="badge-installment">Рассрочка</span>
+    {% endif %}
+
+    <button class="btn-favorite {% if listing.id in favorite_ids %}active{% endif %}"
+            data-id="{{ listing.id }}"
+            onclick="event.stopPropagation()"
+            title="В избранное">
+      {% if listing.id in favorite_ids %}♥{% else %}♡{% endif %}
+    </button>
+  </div>
+
+  <div class="car-card__body">
+    <h3 class="car-card__title">{{ listing.title }}</h3>
+    <div class="car-card__price">$ {{ listing.price|floatformat:0 }}</div>
+    <div class="car-card__price-kgs">{{ listing.price_kgs|floatformat:0 }} сом</div>
+    <div class="car-card__specs">
+      {{ listing.year }} г., {{ listing.engine_volume }} л., {{ listing.get_transmission_display }}<br>
+      {{ listing.get_body_type_display }}, {{ listing.get_fuel_display }}
+    </div>
+    <div class="car-card__footer">
+      <span>📍 {{ listing.get_region_display }}</span>
+    </div>
+  </div>
+</div>

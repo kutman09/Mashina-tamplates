@@ -1,0 +1,61 @@
+{% load static %}
+<nav class="navbar">
+  <div class="container-xl d-flex align-items-center justify-content-between">
+    <a class="navbar-brand" href="/">
+      <img src="{% static 'images/logo.png' %}" alt="Alay Avto 777">
+      <span class="brand-text d-none d-md-block">ALAY AVTO 777</span>
+    </a>
+
+    <button class="navbar-toggler d-lg-none ms-auto me-2"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navMenu"
+            style="background:transparent; border:1px solid #444; padding:6px 10px;">
+      <span style="color:white; font-size:1.2rem;">☰</span>
+    </button>
+
+    <div class="collapse navbar-collapse d-lg-flex justify-content-end" id="navMenu">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/cars/">Каталог</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/about/">О нас</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link d-flex align-items-center gap-1" href="/favorites/">
+            ♡ Избранное
+            {% if user.is_authenticated %}
+              {% with count=user.favorites.count %}
+                {% if count %}<span class="fav-badge">{{ count }}</span>{% endif %}
+              {% endwith %}
+            {% endif %}
+          </a>
+        </li>
+
+        {% if user.is_authenticated %}
+          <li class="nav-item">
+            <a class="nav-link" href="/profile/">Мой профиль</a>
+          </li>
+          <li class="nav-item">
+            <form method="post" action="{% url 'account_logout' %}">
+              {% csrf_token %}
+              <button type="submit" class="btn-logout">Выйти</button>
+            </form>
+          </li>
+        {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/accounts/login/">Войти</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn-register" href="/accounts/signup/">Регистрация</a>
+          </li>
+        {% endif %}
+
+        <li class="nav-item">
+          <a class="btn-add-listing" href="/cars/add/">+ Добавить объявление</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

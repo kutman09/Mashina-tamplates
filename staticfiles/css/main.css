@@ -1,0 +1,40 @@
+:root {
+  --primary: #cc0000;
+  --primary-dark: #990000;
+  --secondary: #ffffff;
+  --accent: #c0c0c0;
+  --bg-dark: #0a0a0a;
+  --bg-card: #141414;
+  --bg-card-hover: #1e1e1e;
+  --text-main: #ffffff;
+  --text-muted: #999999;
+  --text-accent: #cc0000;
+  --border: #2a2a2a;
+  --gold: #d4af37;
+}
+body { background: var(--bg-dark); color: var(--text-main); }
+a { color: var(--secondary); text-decoration: none; }
+.hero-section { min-height: 100vh; background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.85)), url('../images/mountains-bg.jpg') center/cover no-repeat; display: flex; align-items: center; }
+.cars-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media (min-width:576px){ .cars-grid{grid-template-columns:repeat(2,1fr);} }
+@media (min-width:992px){ .cars-grid{grid-template-columns:repeat(3,1fr);} }
+@media (min-width:1200px){ .cars-grid{grid-template-columns:repeat(4,1fr);} }
+.car-card { background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; }
+.car-card__img { width:100%; height:220px; object-fit:cover; }
+@media (max-width:576px){ .car-card__img{height:200px;} }
+.car-card__body { padding: 14px; }
+.car-card__title { font-size: 1.1rem; }
+.car-card__price { color: var(--primary); font-weight: 700; font-size: 1.2rem; }
+.badge-installment,.badge-vip { position:absolute; top:10px; left:10px; background:var(--primary); padding:4px 10px; border-radius:20px; font-size:.75rem; }
+.badge-vip { left:auto; right:10px; background:var(--gold); color:#000; }
+.car-card__photo { position: relative; }
+.btn-favorite { position:absolute; right:10px; bottom:10px; border:none; background:#000a; color:#fff; border-radius:50%; width:36px; height:36px; }
+.btn-favorite.active { color: var(--primary); }
+.quick-search { background: var(--bg-card); border:1px solid var(--border); border-radius: 12px; padding:12px; }
+.quick-search-form { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:8px; }
+@media (max-width:768px){ .quick-search-form { display:flex; flex-direction:column; } }
+.main-photo { width:100%; height:300px; object-fit:cover; border-radius:12px; }
+@media (min-width:768px){ .main-photo { height:500px; } }
+.site-footer { background:#080808; border-top:1px solid var(--border); }
+.mobile-call-btn { display:none; }
+@media (max-width:768px){ .mobile-call-btn { display:flex; position:fixed; bottom:20px; right:20px; z-index:1000; background:var(--primary); color:#fff; border-radius:50px; padding:14px 22px; font-weight:700; } }

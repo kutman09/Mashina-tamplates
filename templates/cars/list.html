@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container py-4">
+  <h1>Каталог автомобилей</h1>
+  <button id="toggle-advanced" class="btn btn-outline-light mb-3">Расширенный поиск</button>
+  <div id="advanced-filters" class="d-none mb-4">
+    <form method="get" class="row g-2">
+      {% for field in filterset.form %}
+        <div class="col-12 col-md-4">{{ field|as_crispy_field }}</div>
+      {% endfor %}
+      <div class="col-12 d-flex gap-2">
+        <a href="/cars/" class="btn btn-outline-secondary">Очистить фильтр</a>
+        <button class="btn btn-danger">Найти</button>
+      </div>
+    </form>
+  </div>
+  <p>Найдено {{ total_count }} объявлений</p>
+  <div class="cars-grid">{% for listing in listings %}{% include 'components/car_card.html' %}{% empty %}<p>Нет объявлений.</p>{% endfor %}</div>
+</div>
+{% endblock %}

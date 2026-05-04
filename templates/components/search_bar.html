@@ -1,0 +1,21 @@
+<div class="quick-search">
+  <form method="GET" action="/cars/" class="quick-search-form">
+    <select name="make" id="qs-make" class="qs-select">
+      <option value="">Марка: любая</option>
+      {% for val, label in make_choices %}
+        <option value="{{ val }}">{{ label }}</option>
+      {% endfor %}
+    </select>
+
+    <select name="model_name" id="qs-model" class="qs-select">
+      <option value="">Модель: любая</option>
+    </select>
+    <input name="year_min" type="number" placeholder="Год от" class="qs-input" min="1990" max="2025">
+    <input name="price_min" type="number" placeholder="Цена от, $" class="qs-input">
+    <input name="price_max" type="number" placeholder="до, $" class="qs-input">
+    <button type="submit" class="qs-btn">🔍 Найти</button>
+  </form>
+</div>
+<script>
+  const MODELS_BY_MAKE = {{ models_by_make_json|safe }};
+</script>

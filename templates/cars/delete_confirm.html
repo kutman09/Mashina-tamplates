@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-5">
+  <h1>Удалить объявление?</h1>
+  <form method="post">{% csrf_token %}<button class="btn btn-danger">Удалить</button></form>
+</div>
+{% endblock %}

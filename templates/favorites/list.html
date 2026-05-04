@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container py-4">
+  <h1>Избранное</h1>
+  {% if favorites %}
+    <div class="cars-grid">
+      {% for fav in favorites %}
+        {% with listing=fav.listing %}
+          {% include 'components/car_card.html' %}
+        {% endwith %}
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>У вас нет избранных объявлений</p>
+  {% endif %}
+</div>
+{% endblock %}

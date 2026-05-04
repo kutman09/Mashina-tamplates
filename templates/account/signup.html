@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="auth-page">
+  <div class="auth-overlay"></div>
+  <div class="auth-container">
+    <div class="auth-card">
+      <div class="auth-logo">
+        <img src="{% static 'images/logo.png' %}" alt="Alay Avto 777" height="80">
+        <h2 class="auth-title">Регистрация</h2>
+      </div>
+      <form method="post" class="auth-form">
+        {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label text-light">Имя пользователя *</label>
+          <input type="text" name="username" class="form-control dark-input" placeholder="Придумайте логин" required autofocus>
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light">Email</label>
+          <input type="email" name="email" class="form-control dark-input" placeholder="example@mail.com">
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light">Пароль *</label>
+          <input type="password" name="password1" class="form-control dark-input" placeholder="Минимум 8 символов" required>
+        </div>
+        <div class="mb-3">
+          <label class="form-label text-light">Повторите пароль *</label>
+          <input type="password" name="password2" class="form-control dark-input" placeholder="Повторите пароль" required>
+        </div>
+        <button type="submit" class="btn btn-danger w-100 fw-bold py-2">Создать аккаунт</button>
+      </form>
+      <div class="auth-footer">
+        <p class="text-muted">Уже есть аккаунт? <a href="/accounts/login/" class="text-danger fw-bold">Войти</a></p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

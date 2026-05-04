@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block content %}
+<div class="container py-4">
+  <div class="row g-4">
+    <div class="col-lg-7">
+      {% with main=listing.get_main_photo %}
+      {% if main %}<img id="main-photo" class="main-photo" src="{{ main.image.url }}" alt="{{ listing.title }}">{% endif %}
+      {% endwith %}
+      <div class="d-flex flex-wrap gap-2 mt-2">{% for photo in listing.photos.all %}<img src="{{ photo.image.url }}" class="thumb-img" data-full="{{ photo.image.url }}" style="width:80px;height:60px;object-fit:cover">{% endfor %}</div>
+    </div>
+    <div class="col-lg-5">
+      <h1>{{ listing.title }}</h1>
+      <div class="detail-price-block">
+        <div class="detail-price">$ {{ listing.price|floatformat:0 }}</div>
+        <div class="detail-price-kgs">{{ listing.price_kgs|floatformat:0 }} сом</div>
+        {% if listing.is_negotiable %}
+          <span class="badge bg-secondary mb-3">Торг уместен</span>
+        {% endif %}
+        <div class="detail-actions">
+          {% if user.is_authenticated %}
+            {% if listing.user.profile.phone %}
+              <a href="tel:{{ listing.user.profile.phone }}" class="btn btn-danger fw-bold detail-btn">📞 Позвонить продавцу</a>
+            {% else %}
+              <a href="tel:+996500070809" class="btn btn-danger fw-bold detail-btn">📞 Позвонить продавцу</a>
+            {% endif %}
+          {% else %}
+            <a href="/accounts/login/" class="btn btn-danger fw-bold detail-btn">🔒 Войдите чтобы позвонить</a>
+          {% endif %}
+          <a href="https://wa.me/996500070809" target="_blank" class="btn btn-success fw-bold detail-btn">💬 WhatsApp</a>
+          {% if user.is_authenticated %}
+            <button id="detail-favorite-btn"
+                    class="btn detail-btn {% if is_favorited %}btn-danger{% else %}btn-outline-light{% endif %}"
+                    data-id="{{ listing.id }}"
+                    onclick="toggleDetailFavorite(this)">
+              {% if is_favorited %}♥ В избранном{% else %}♡ В избранное{% endif %}
+            </button>
+          {% else %}
+            <a href="/accounts/login/" class="btn btn-outline-light detail-btn">♡ В избранное</a>
+          {% endif %}
+        </div>
+      </div>
+      {% if request.user.is_authenticated %}
+        <p>Телефон: {{ listing.user.profile.phone|default:"+996 500 07 08 09" }}</p>
+      {% else %}
+        <a href="/accounts/login/" class="btn btn-outline-warning">Войти чтобы увидеть номер</a>
+      {% endif %}
+      <p>{{ listing.description }}</p>
+    </div>
+  </div>
+
+  <div class="specs-table mt-4">
+    <h3 class="specs-title">Характеристики</h3>
+    <div class="specs-grid">
+      <div class="spec-row"><span class="spec-label">Марка</span><span class="spec-value">{{ listing.get_make_display }}</span></div>
+      <div class="spec-row"><span class="spec-label">Модель</span><span class="spec-value">{{ listing.model_name }}</span></div>
+      <div class="spec-row"><span class="spec-label">Год выпуска</span><span class="spec-value">{{ listing.year }}</span></div>
+      <div class="spec-row"><span class="spec-label">Пробег</span><span class="spec-value">{{ listing.mileage|intcomma }} км</span></div>
+      <div class="spec-row"><span class="spec-label">Тип кузова</span><span class="spec-value">{{ listing.get_body_type_display }}</span></div>
+      <div class="spec-row"><span class="spec-label">Коробка передач</span><span class="spec-value">{{ listing.get_transmission_display }}</span></div>
+      <div class="spec-row"><span class="spec-label">Тип топлива</span><span class="spec-value">{{ listing.get_fuel_display }}</span></div>
+      <div class="spec-row"><span class="spec-label">Объем двигателя</span><span class="spec-value">{{ listing.engine_volume }} л.</span></div>
+      <div class="spec-row"><span class="spec-label">Привод</span><span class="spec-value">{{ listing.get_drive_display }}</span></div>
+      <div class="spec-row"><span class="spec-label">Руль</span><span class="spec-value">{{ listing.get_steering_display }}</span></div>
+      {% if listing.color %}
+      <div class="spec-row"><span class="spec-label">Цвет</span><span class="spec-value">{{ listing.get_color_display }}</span></div>
+      {% endif %}
+      {% if listing.power %}
+      <div class="spec-row"><span class="spec-label">Мощность</span><span class="spec-value">{{ listing.power }} л.с.</span></div>
+      {% endif %}
+      <div class="spec-row"><span class="spec-label">Владельцев по ПТС</span><span class="spec-value">{{ listing.owners_count }}</span></div>
+      <div class="spec-row"><span class="spec-label">Состояние</span><span class="spec-value">{{ listing.get_condition_display }}</span></div>
+      <div class="spec-row"><span class="spec-label">Регион</span><span class="spec-value">{{ listing.get_region_display }}</span></div>
+      {% if listing.is_customs_cleared %}
+      <div class="spec-row"><span class="spec-label">Растаможен</span><span class="spec-value">✅ Да</span></div>
+      {% endif %}
+      {% if listing.has_gas_equipment %}
+      <div class="spec-row"><span class="spec-label">Газовое оборудование</span><span class="spec-value">✅ Есть</span></div>
+      {% endif %}
+      {% if listing.has_installment %}
+      <div class="spec-row"><span class="spec-label">Рассрочка</span><span class="spec-value text-danger fw-bold">✅ Доступна</span></div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
