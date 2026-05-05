@@ -176,15 +176,18 @@
 
       <div class="form-section">
         <h4 class="form-section-title">Фотографии</h4>
+        <p class="text-muted small mb-3">Первое фото — главное. Можно добавить до 10 фотографий.</p>
+
         <div class="photo-upload-area" id="photo-drop-zone">
-          <input type="file" name="photos" id="photo-upload" accept="image/*" multiple class="d-none">
-          <label for="photo-upload" class="photo-upload-label">
-            <span class="upload-icon">📷</span>
-            <span>Нажмите чтобы добавить фото</span>
-            <span class="text-muted small">Первое фото — главное. До 10 штук.</span>
-          </label>
+          <span class="upload-icon">📷</span>
+          <span class="upload-text">Нажмите чтобы добавить фото</span>
+          <span class="text-muted small">Можно выбрать сразу несколько</span>
+          <input type="file" id="photo-file-input" accept="image/*" multiple class="d-none">
         </div>
+
         <div id="photo-preview" class="photo-preview-grid mt-3"></div>
+        <p id="photo-count-text" class="text-muted small mt-2"></p>
+        <div id="photo-hidden-inputs"></div>
       </div>
 
       <button type="submit" class="btn btn-danger btn-lg w-100 fw-bold mt-4">Опубликовать объявление</button>

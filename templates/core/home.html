@@ -7,29 +7,29 @@
 
   <div class="container hero-content">
     <div class="row align-items-center min-vh-100">
-      <div class="col-12 col-md-7 col-lg-6">
-        <img src="{% static 'images/logo.png' %}" alt="Alay Avto 777" class="hero-logo mb-3">
-        <h1 class="hero-title">АЛАЙ-777 АВТО САЛОН</h1>
-        <p class="hero-subtitle">
+      <div class="col-12 col-md-7 col-lg-6 hero-col text-center text-md-start">
+        <img src="{% static 'images/logo.png' %}" alt="Alay Avto 777" class="hero-logo mb-3 anim-fade-down">
+        <h1 class="hero-title anim-fade-up" style="animation-delay:0.15s">АЛАЙ-777 АВТО САЛОН</h1>
+        <p class="hero-subtitle anim-fade-up" style="animation-delay:0.3s">
           Авто в рассрочку через банк.<br>
           Проценты: <strong>13%</strong> | <strong>15%</strong> | <strong>18%</strong>
         </p>
 
-        <div class="hero-contacts mb-4">
+        <div class="hero-contacts mb-4 anim-fade-up" style="animation-delay:0.45s">
           <a href="tel:+996500070809" class="hero-phone">📞 0500-07-08-09</a>
           <a href="tel:+996500222233" class="hero-phone">📞 0500-22-22-33</a>
           <p class="hero-address">📍 Elebesova 43, Bishkek, Kyrgyzstan</p>
         </div>
 
-        <div class="hero-buttons d-flex gap-3 flex-wrap">
-          <a href="/cars/" class="btn btn-danger btn-lg fw-bold px-4">Смотреть каталог</a>
-          <a href="https://wa.me/996500070809" target="_blank" class="btn btn-outline-light btn-lg px-4">Связаться</a>
+        <div class="hero-buttons anim-fade-up" style="animation-delay:0.6s">
+          <a href="/cars/" class="btn btn-danger btn-lg fw-bold px-4 hero-btn-main">Смотреть каталог</a>
+          <a href="https://wa.me/996500070809" target="_blank" class="btn btn-outline-light btn-lg px-4 hero-btn-second">Связаться</a>
         </div>
       </div>
     </div>
   </div>
 </section>
 <div class="container my-4">{% include 'components/search_bar.html' %}</div>
-<section class="container mb-5"><h2 class="mb-3">VIP объявления</h2><div class="cars-grid">{% for listing in featured %}{% include 'components/car_card.html' %}{% endfor %}</div></section>
-<section class="container mb-5"><h2 class="mb-3">Последние объявления</h2><div class="cars-grid">{% for listing in latest %}{% include 'components/car_card.html' %}{% endfor %}</div></section>
+<section class="container mb-5 section-featured" data-animate><h2 class="mb-3 section-title anim-on-scroll">VIP объявления</h2><div class="cars-grid">{% for listing in featured %}{% include 'components/car_card.html' %}{% endfor %}</div></section>
+<section class="container mb-5 section-latest" data-animate><h2 class="mb-3 section-title anim-on-scroll">Последние объявления</h2><div class="cars-grid">{% for listing in latest %}{% include 'components/car_card.html' %}{% endfor %}</div></section>
 {% endblock %}

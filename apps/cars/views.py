@@ -70,16 +70,27 @@ class AddCarView(LoginRequiredMixin, CreateView):
         if not listing.title:
             listing.title = f"{listing.get_make_display()} {listing.model_name} {listing.year}"
         listing.save()
+
         if listing.currency == 'usd':
             listing.price_kgs = int(listing.price) * 87
         else:
             listing.price_kgs = listing.price
         listing.save(update_fields=['price_kgs'])
-        listing.slug = slugify(f"{listing.make}-{listing.model_name}-{listing.year}-{listing.id}")
+
+        base = slugify(f"{listing.make}-{listing.model_name}-{listing.year}-{listing.id}")
+        listing.slug = base
         listing.save(update_fields=['slug'])
+
+        # Берём ВСЕ файлы из request.FILES.getlist('photos')
         photos = self.request.FILES.getlist('photos')
         for i, photo in enumerate(photos[:10]):
-            CarPhoto.objects.create(listing=listing, image=photo, is_main=(i == 0), order=i)
+            CarPhoto.objects.create(
+                listing=listing,
+                image=photo,
+                is_main=(i == 0),
+                order=i
+            )
+
         messages.success(self.request, 'Объявление успешно опубликовано!')
         return redirect(listing.get_absolute_url())
 
